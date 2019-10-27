@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    登录
   </div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    酒店
   </div>
 </template>
 <script>

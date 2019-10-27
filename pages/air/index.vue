@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    机票
   </div>
 </template>
 <script>

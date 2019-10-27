@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    攻略
   </div>
 </template>
 <script>
