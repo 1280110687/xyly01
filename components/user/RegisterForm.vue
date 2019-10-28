@@ -48,7 +48,7 @@ export default {
     return {
       form: {
         username: '14715871345',
-        captcha: '234534',
+        captcha: '000000',
         nickname: '007',
         password: '123456',
         password2: '123456'
@@ -104,8 +104,4 @@ export default {
 </script>
 
 <style>
-.register_form {
-  background-color: #fff;
-  padding: 24px;
-}
 </style>

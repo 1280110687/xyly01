@@ -82,4 +82,8 @@ export default {
     }
   }
 }
+.login_main_content {
+  background-color: #fff;
+  padding: 24px;
+}
 </style>
