@@ -32,12 +32,17 @@ export default {
   data () {
     return {
       currentIndex: this.$route.params.id
-    };
+    }
   },
   components: {
     LoginForm,
     RegisterForm
-  }
+  },
+  // mounted () {
+  //   console.log(this.$route.params.id)
+  //   console.log(this.$route.params)
+  //   console.log(this.$route)
+  // }
 }
 </script>
 <style lang="less" scoped>

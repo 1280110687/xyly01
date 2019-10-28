@@ -93,6 +93,14 @@ export default {
           console.log(resForm);
           this.$axios.post("/accounts/register", resForm)
             .then(res => console.log(res))
+            // 4 跳转到 登录页面
+            // 4.1  子向父传参  来跳转
+            // 4.2  currentIndex 和 路由上的参数产生关联就可以了
+            //  1 nuxt 中路由的知识 （关于如何创建页面 ）
+            this.$message.success('注册成功')
+            setTimeout(() => {
+              this.$router.push('/user/login/0')
+            }, 700);
         } else {
           console.log("输入不合法");
           return false;

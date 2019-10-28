@@ -26,7 +26,14 @@ export default {
   methods: {
     submitLogin () {
       //console.log('%c'+'开心就好',"color:red;font-size:100px;background-image:linear-gradient(to right,#0094ff,pink)")
-      
+      this.$axios.post('/accounts/login',this.form)
+        .then(res => {
+          console.log(res)
+          this.$message.success('登录成功')
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 700);
+        })
     }
   }
 }
