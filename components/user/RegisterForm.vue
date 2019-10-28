@@ -8,7 +8,10 @@
         <el-input v-model="form.captcha" placeholder="验证码">
           <!-- template 只是一个占位符 不能 绑定事件！！！！  -->
           <template slot="append">
-            <div @click="sendCaptcha">发送验证码<span>(59)</span></div>
+            <div @click="sendCaptcha">
+              发送验证码
+              <span>(59)</span>
+            </div>
           </template>
         </el-input>
       </el-form-item>
@@ -69,11 +72,9 @@ export default {
 
       if (reg.test(this.form.username)) {
         this.$axios
-          .get("/captchas", {
-            params: { tel: this.form.username }
-          })
+          .post("/captchas", { tel: this.form.username })
           .then(res => {
-            // console.log(res);
+            console.log(res);
           });
       } else {
         this.$message.warning("手机号码不合法");
