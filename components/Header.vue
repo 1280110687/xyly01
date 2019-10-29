@@ -31,7 +31,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人中心</el-dropdown-item>
                 <el-dropdown-item>
-                  <div>退出</div>
+                  <div @click="handleLogout">退出</div>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -61,18 +61,18 @@ export default {
       this.$store.commit("user/setUser", userinfo);
     }
   },
-  // methods: {
-  //   handleLogout () {
-  //     // 1  删除 vuex 中的用户信息
-  //     // 2  删除 本地 存储的数据
-  //     this.$store.commit('user/setUser', {token:'',user:{}})
-  //     localStorage.removeItem('userinfo')
-  //     this.$message.success('退出成功')
-  //     setTimeout(() => {
-  //       this.$router.push('/user/login/0')
-  //     }, 500);
-  //   }
-  // }
+  methods: {
+    handleLogout () {
+      // 1  删除 vuex 中的用户信息
+      // 2  删除 本地 存储的数据
+      this.$store.commit('user/setUser', {token:'',user:{}}) //把token为空值 和 user为空对象 传回修改vuex中的数据
+      localStorage.removeItem('userinfo') // 删除本地数据
+      this.$message.success('退出成功')
+      setTimeout(() => {
+        this.$router.push('/user/login/0')
+      }, 500);
+    }
+  }
 }
 </script>
 
