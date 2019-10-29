@@ -11,13 +11,13 @@
     <div class="search_content">
       <el-form label-width="80px">
         <el-form-item label="出发城市">
-          <el-autocomplete :fetch-suggestions="querySearchAsync" v-model="form.departCity"></el-autocomplete>
+          <el-autocomplete :fetch-suggestions="querySearchAsync" v-model="form.departCity" @select="handleSelect1"></el-autocomplete>
         </el-form-item>
         <!-- 换 -->
-        <div class="city_change">换</div>
+        <div class="city_change" @click="handleCityChange">换</div>
         <!-- 换 -->
         <el-form-item label="到达城市">
-          <el-autocomplete :fetch-suggestions="querySearchAsync" v-model="form.destCity"></el-autocomplete>
+          <el-autocomplete :fetch-suggestions="querySearchAsync" v-model="form.destCity" @select="handleSelect2"></el-autocomplete>
         </el-form-item>
         <el-form-item label="出发时间">
           <el-date-picker
@@ -74,6 +74,31 @@ export default {
             callback(cityArr)
           })
       }
+    },
+    // 获取出发城市编码
+    handleSelect1(item){
+      console.log(item)
+      this.form.departCode = item.code
+      console.log(item.code)
+    },
+    // 获取到达城市编码
+    handleSelect2(item){
+      this.form.destCode = item.code
+    },
+    // 点击 “ 换 ”  交换城市和编码
+    handleCityChange(){
+      // 简单的 对象 深拷贝 有小弊端： 对象中如果有 属性 = 函数格式 导致 属性丢失！！！！ 
+      // let form=JSON.parse(JSON.stringify(this.form));
+      // this.form.departCity=form.destCity;
+      // this.form.departCode=form.destCode;
+      // // ================
+      // this.form.destCity=form.departCity;
+      // this.form.destCode=form.departCode;
+
+      // low-----------------------
+      // es6 交换
+      [this.form.departCity,this.form.departCode,this.form.destCity,this.form.destCode]=
+      [this.form.destCity,this.form.destCode,this.form.departCity,this.form.departCode]
     }
   }
 }
