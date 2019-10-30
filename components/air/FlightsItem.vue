@@ -18,7 +18,35 @@
         </p>
       </div>
     </div>
-    <div class="item_info"></div>
+    <div class="item_info">
+      <div class="item_low">低价推荐</div>
+      <div class="item_seat">
+        <div class="seat_row">
+          <div class="seat_row_name">
+            <span>经济舱</span> | 上海一诺千金航空服务有限公司
+          </div>
+          <div class="seat_row_price">$1999</div>
+          <div class="seat_row_btns">
+            <div>
+              <el-button type="warning" size="mini">选定</el-button>
+              <p>剩余:99</p>
+            </div>
+          </div>
+        </div>
+        <div class="seat_row">
+          <div class="seat_row_name">
+            <span>经济舱</span> | 上海一诺千金航空服务有限公司
+          </div>
+          <div class="seat_row_price">$1999</div>
+          <div class="seat_row_btns">
+            <div>
+              <el-button type="warning" size="mini">选定</el-button>
+              <p>剩余:99</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -31,6 +59,7 @@ export default {
 .flights_item {
   border: 1px solid #e5e5e5;
   margin: 10px 0;
+
   .item_main {
     height: 80px;
     background-color: #fff;
@@ -77,6 +106,50 @@ export default {
   }
 
   .item_info {
+    background-color: #f6f6f6;
+    display: flex;
+    .item_low {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .item_seat {
+      flex: 5;
+      .seat_row {
+        height: 70px;
+        display: flex;
+        border-bottom: 1px solid #000;
+        &:last-child {
+          border-bottom: none;
+        }
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .seat_row_name {
+          flex: 4;
+          font-size: 13px;
+          span {
+            color: green;
+          }
+        }
+
+        .seat_row_price {
+          flex: 1;
+          font-size: 18px;
+          color: orange;
+        }
+
+        .seat_row_btns {
+          flex: 1;
+          font-size: 13px;
+        }
+      }
+    }
   }
 }
 </style>

@@ -17,7 +17,7 @@
             <i class="el-icon-caret-bottom"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>信息</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <nuxt-link class="login_link" to="/user/login/0">
@@ -135,6 +135,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     .login_link {
       font-size: 13px;
       color: #666;

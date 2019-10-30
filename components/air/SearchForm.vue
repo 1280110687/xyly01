@@ -77,6 +77,8 @@ export default {
             console.log(res)
             let cityArr = res.data.data
             cityArr.forEach(v => {
+              // 把 广州市 的 “市” 移除 ， because 后台取数据不要带 “市” 
+              v.name = v.name.replace("市", "")
               v.value = v.name
             })
             callback(cityArr)

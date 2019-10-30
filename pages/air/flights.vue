@@ -3,7 +3,7 @@
     <!-- 正文 开始 -->
     <div class="flights_main">
       <!-- 筛选模块 开始 -->
-      <FlightsFliter/>
+      <FlightsFliter v-if="false"/>
       <!-- 筛选模块 结束 -->
 
       <!-- 表单头部 开始 -->
@@ -11,6 +11,7 @@
       <!-- 表单头部 结束 -->
 
       <!-- 机票列表 开始 -->
+      <FlightsItem/>
       <FlightsItem/>
       <!-- 机票列表 结束 -->
     </div>
