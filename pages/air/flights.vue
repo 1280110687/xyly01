@@ -3,7 +3,11 @@
     <!-- 正文 开始 -->
     <div class="flights_main">
       <!-- 筛选模块 开始 -->
-      <FlightsFliter v-if="false" />
+      <FlightsFliter
+        v-if="flightsData.flights.length"
+        :info="flightsData.info"
+        :options="flightsData.options"
+      />
       <!-- 筛选模块 结束 -->
 
       <!-- 表单头部 开始 -->

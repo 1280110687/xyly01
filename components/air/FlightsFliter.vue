@@ -1,12 +1,12 @@
 <template>
   <div class="flights_filter">
     <div class="filter_main">
-      <div class="main_path">单程: 广州-上海/ 2019-10-28</div>
+      <div class="main_path">单程: {{info.departCity}} - {{info.destCity}} /  {{info.departDate}}</div>
       <div class="main_selects">
         <div class="select_item">
-          <el-select placeholder="请选择" size="mini">
+          <el-select placeholder="起飞机场" size="mini" v-model="airport">
             <el-option
-              v-for="item in  [{ value: '选项1', label: '黄金糕' }]"
+              v-for="item in  filterOptions.airport"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -53,7 +53,36 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    info: {
+      type: Object,
+      default: {}
+    },
+    options: {
+      type: Object,
+      default: {}
+    }
+  },
+  data () {
+    return {
+    // 起飞机场默认值
+    airport: "",
+    // 起飞时间
+    flightTimes: "",
+    // 航空公司
+    company: "",
+    // 机型
+    sizes: ""  
+    }
+  },
+  computed: {
+    filterOptions () {
+      let airport = []
+      return {airport}
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .flights_filter {
