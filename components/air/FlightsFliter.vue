@@ -1,10 +1,10 @@
 <template>
   <div class="flights_filter">
     <div class="filter_main">
-      <div class="main_path">单程: {{info.departCity}} - {{info.destCity}} /  {{info.departDate}}</div>
+      <div class="main_path">单程: {{info.departCity}} - {{info.destCity}} / {{info.departDate}}</div>
       <div class="main_selects">
         <div class="select_item">
-          <el-select placeholder="起飞机场" size="mini" v-model="airport">
+          <el-select @change="filterChange" placeholder="起飞机场" size="mini" v-model="airport">
             <el-option
               v-for="item in  filterOptions.airport"
               :key="item.value"
@@ -14,9 +14,9 @@
           </el-select>
         </div>
         <div class="select_item">
-          <el-select placeholder="请选择" size="mini">
+          <el-select @change="filterChange" placeholder="起飞时间" size="mini" v-model="flightTimes">
             <el-option
-              v-for="item in  [{ value: '选项1', label: '黄金糕' }]"
+              v-for="item in  filterOptions.flightTimes "
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -24,9 +24,9 @@
           </el-select>
         </div>
         <div class="select_item">
-          <el-select placeholder="请选择" size="mini">
+          <el-select @change="filterChange" placeholder="航空公司" size="mini" v-model="company">
             <el-option
-              v-for="item in  [{ value: '选项1', label: '黄金糕' }]"
+              v-for="item in  filterOptions.company"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -34,9 +34,9 @@
           </el-select>
         </div>
         <div class="select_item">
-          <el-select placeholder="请选择" size="mini">
+          <el-select @change="filterChange" placeholder="请选择" size="mini" v-model="sizes">
             <el-option
-              v-for="item in  [{ value: '选项1', label: '黄金糕' }]"
+              v-for="item in   filterOptions.sizes "
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -47,7 +47,7 @@
     </div>
     <div class="filters_btns">
       筛选:
-      <el-button type="primary" round size="mini">撤销</el-button>
+      <el-button type="primary" round size="mini" @click="handleClick">撤销</el-button>
     </div>
   </div>
 </template>
@@ -64,25 +64,66 @@ export default {
       default: {}
     }
   },
-  data () {
-    return {
-    // 起飞机场默认值
-    airport: "",
-    // 起飞时间
-    flightTimes: "",
-    // 航空公司
-    company: "",
-    // 机型
-    sizes: ""  
+  computed: {
+    // airport(){},
+    filterOptions () {
+      // 起飞机场
+      // let airport=this.options.airport.filter(v=>v).map(v=>({value:v,label:v}));
+      let airport = [];
+      this.options.airport.forEach(v => {
+        v && airport.push({ value: v, label: v });
+      });
+      // 起飞时间
+      let flightTimes = this.options.flightTimes.map(v => ({
+        label: `${v.from}:00 - ${v.to}:00`,
+        value: v.from + "|" + v.to // 6|10
+        // value:v
+      }));
+      // 航空公司
+      let company = this.options.company.map(v => ({ value: v, label: v }));
+      // 机型
+      let sizes = [
+        { value: "L", label: "大" },
+        { value: "M", label: "中" },
+        { value: "S", label: "小" }
+      ];
+
+      return { airport, flightTimes, company, sizes };
     }
   },
-  computed: {
-    filterOptions () {
-      let airport = []
-      return {airport}
+  methods: {
+    handleClick () {
+      // console.log(this.airport,this.flightTimes,this.company,this.sizes);
+    },
+    // 下拉框值改变事件
+    filterChange () {
+      // 把选中的值 发送到父组件中即可
+      // console.log(this.airport,this.flightTimes,this.company,this.sizes)
+      let filter = {
+        airport: this.airport,
+        flightTimes: this.flightTimes,
+        company: this.company,
+        sizes: this.sizes
+      };
+      this.$emit("filterChange", filter);
     }
+  },
+  data () {
+    return {
+      // 起飞机场默认值
+      airport: "",
+      // 起飞时间
+      flightTimes: "",
+      // 航空公司
+      company: "",
+      // 机型
+      sizes: ""
+    };
   }
-}
+
+  // airport:["首都机场"]
+  // [{ value: '首都机场', label: '首都机场' }]
+};
 </script>
 <style lang="less" scoped>
 .flights_filter {
@@ -104,7 +145,7 @@ export default {
     }
   }
   .filters_btns {
-    padding: 10px 0 20px 0;
+    padding: 10px 0;
   }
 }
 </style>
