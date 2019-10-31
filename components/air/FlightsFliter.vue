@@ -34,7 +34,7 @@
           </el-select>
         </div>
         <div class="select_item">
-          <el-select @change="filterChange" placeholder="请选择" size="mini" v-model="sizes">
+          <el-select @change="filterChange" placeholder="机型" size="mini" v-model="sizes">
             <el-option
               v-for="item in   filterOptions.sizes "
               :key="item.value"

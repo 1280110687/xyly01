@@ -134,7 +134,7 @@ export default {
     filterChange (filterObj) {
       // {airport: "首都机场", flightTimes: "6|12", company: "国航", sizes: "M"}
       // {airport: "", flightTimes: "", company: "国航", sizes: ""}
-
+      console.log(filterObj)
       // 1 先过滤 第一个条件 航空公司
       // 2 当 航空公司 等于 空字符串的时候 表示 不用过滤
       let filterList = this.flightsData.flights.filter(v => {
@@ -142,18 +142,17 @@ export default {
         // if (filterObj.company === "") {
         //   return true;
         // }
-
+        // console.log(v)   //filter（）过滤数组  v 是数组每一项
         // 1 航空公司的条件
-        let isOk1 =
-          filterObj.company === "" || v.airline_name === filterObj.company;
+        let isOk1 = filterObj.company === "" || v.airline_name === filterObj.company;
+        // 2 起飞机场的条件
+        let isOk2 = filterObj.airport === "" || v.org_airport_name === filterObj.airport;
+        // 3 机型的条件
+        let isOk3 = filterObj.sizes === "" || v.plane_size === filterObj.sizes;
 
-        return isOk1;
-        // if (isOk1) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        return isOk1&&isOk2&&isOk3;
       });
+
       this.filterList = filterList;
       this.getList();
     }
