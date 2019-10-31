@@ -150,7 +150,19 @@ export default {
         // 3 机型的条件
         let isOk3 = filterObj.sizes === "" || v.plane_size === filterObj.sizes;
 
-        return isOk1&&isOk2&&isOk3;
+        // 4 起飞时间 只拿完整数据中 起飞时间（dep_time） 和 筛选条件中的 from | to 做比较即可 (6|12)
+        // 4.1 获取 条件中的 开始时间
+        // 4.2 格式要注意 字符串的格式 加减运算
+        let from = +filterObj.flightTimes.split("|")[0];
+        let to = +filterObj.flightTimes.split("|")[1];
+
+        // 4.3 把 6:30 ==> 6.5 格式
+        let hour = +v.dep_time.split(":")[0] + +v.dep_time.split(":")[1] / 60;
+
+        let isOk4 = filterObj.flightTimes === "" || (hour >= from && hour <= to);
+
+
+        return isOk1&&isOk2&&isOk3&&isOk4;
       });
 
       this.filterList = filterList;
