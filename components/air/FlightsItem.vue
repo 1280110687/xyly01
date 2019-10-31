@@ -29,7 +29,7 @@
           <div class="seat_row_price">￥{{item.settle_price}}</div>
           <div class="seat_row_btns">
             <div>
-              <el-button type="warning" size="mini">选定</el-button>
+              <el-button type="warning" size="mini" @click="handleSelect(data.id, item.seat_xid) ">选定</el-button>
               <p>剩余:{{item.discount}}</p>
             </div>
           </div>
@@ -65,6 +65,12 @@ export default {
       let minutes = duration / 1000 / 60 - hour * 60
 
       return `${hour}时${minutes}分`
+    }
+  },
+  methods: {
+    handleSelect (id, seat_xid) {
+      // console.log(id, seat_xid)
+      this.$router.push({path: '/air/order', query: {id, seat_xid}})
     }
   }
 }

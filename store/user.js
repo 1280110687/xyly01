@@ -23,7 +23,7 @@ export const actions = {
         context.commit('setUser', res.data)
         // 把 用户信息 存入 本地存储中
         localStorage.setItem("userinfo", JSON.stringify(res.data));
-        console.log(123)
+        // console.log(123)
         return res.data
       })
   }

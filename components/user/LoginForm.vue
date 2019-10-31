@@ -33,7 +33,7 @@ export default {
        */
       this.$store.dispatch('user/setUser', this.form)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.$message.success('登录成功')
           setTimeout(() => {
             this.$router.push('/')
