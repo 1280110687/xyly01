@@ -46,7 +46,22 @@
     <!-- 正文 结束 -->
 
     <!-- 侧边栏 开始 -->
-    <div class="flights_aside">2</div>
+    <div class="flights_aside">
+      <div class="history">
+        <div class="history_title">历史搜索</div>
+        <div class="history_content">
+          <div class="history_row" v-for="(item, index) in historyList" :key="index">
+            <div class="his_left">
+              <p>{{item.departCity}} - {{item.destCity}}</p>
+              <p>{{item.departDate}}</p>
+            </div>
+            <div class="his_right">
+              <el-button size="mini" type="warning">选择</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 侧边栏 结束 -->
   </div>
 </template>
@@ -82,6 +97,8 @@ export default {
       currentFlights: [],
       // 筛选后的数据源 第一次加载页面的时候  值 === 总的数据源
       filterList: [],
+      // 侧边栏历史搜索的数组
+      historyList: []
     }
   },
   methods: {
@@ -162,7 +179,7 @@ export default {
         let isOk4 = filterObj.flightTimes === "" || (hour >= from && hour <= to);
 
 
-        return isOk1&&isOk2&&isOk3&&isOk4;
+        return isOk1 && isOk2 && isOk3 && isOk4;
       });
 
       this.filterList = filterList;
@@ -171,6 +188,10 @@ export default {
   },
   mounted () {
     this.getList(true)
+
+    // 加载本地存储中的历史搜索
+    this.historyList = JSON.parse(localStorage.getItem('historySearch'))
+    console.log(this.historyList)
   }
 }
 </script>
@@ -184,6 +205,45 @@ export default {
   }
   .flights_aside {
     flex: 2;
+    .history {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-left: 14px;
+      margin-top: 14px;
+      .history_title {
+        font-size: 26px;
+        padding: 20px 0;
+      }
+
+      .history_content {
+        .history_row {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 0;
+          border-bottom: 1px solid #ccc;
+          .his_left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            p:nth-child(1) {
+              font-size: 16px;
+            }
+            p:nth-child(2) {
+              color: #666;
+              font-size: 13px;
+            }
+          }
+
+          .his_right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
   }
   .air_list {
     .nothingness {

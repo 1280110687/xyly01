@@ -89,7 +89,7 @@ export default {
     handleSelect1 (item) {
       console.log(item)
       this.form.departCode = item.code
-      console.log(item.code)
+      // console.log(item.code)
     },
     // 获取到达城市编码
     handleSelect2 (item) {
@@ -114,6 +114,22 @@ export default {
     handleGetTicket(){
       // 欠此处一个表单验证
       this.$router.push({ path: '/air/flights', query: this.form })
+      // 这里需要把获取到的机票搜索信息存到本地    [{dename:"广州},{dename:"上海"}];
+      // console.log(this.form)
+      let historyMes = localStorage.getItem('historySearch')
+      let arr = []
+      if (historyMes) {
+        arr = JSON.parse(historyMes)
+      }
+      // 把重复值去除
+      const index = arr.findIndex(v => JSON.stringify(this.form) === JSON.stringify(v))
+      if (index !== -1) {
+        // 找到重复值
+        arr.splice(index, 1)
+      }
+
+      arr.unshift(this.form)
+      localStorage.setItem('historySearch',JSON.stringify(arr))
     }
   }
 }
