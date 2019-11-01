@@ -1,10 +1,10 @@
 <template>
   <div class="order">
     <div class="order_main">
-      <orderForm :airTicket="airTicket" />
+      <orderForm :airTicket="airTicket" @countPrice="countPrice" />
     </div>
     <div class="order_aside">
-      <orderBill :data="airTicket" />
+      <orderBill :data="airTicket" :price="price" :usersLength="usersLength"/>
     </div>
   </div>
 </template>
@@ -17,7 +17,9 @@ export default {
   },
   data () {
     return {
-      airTicket: {}
+      airTicket: {},
+      price: 0,
+      usersLength: 0
     }
   },
   mounted () {
@@ -31,7 +33,12 @@ export default {
         console.log(res) // 这里可以拿到需要的所有数据
         this.airTicket = res.data
       })
-
+  },
+  methods: {
+    countPrice (price, usersLength) {
+      this.price = price
+      this.usersLength = usersLength
+    }
   }
 }
 </script>

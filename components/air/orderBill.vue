@@ -26,17 +26,17 @@
       <div class="content_f2">
         <span>成人机票</span>
         <span>￥{{data.base_price}}</span>
-        <span>x 1</span>
+        <span>x {{usersLength}}</span>
       </div>
       <div class="content_f3">
         <span>机建 + 燃油</span>
         <span>￥{{data.airport_tax_audlet}}/人/单程</span>
-        <span>x 1</span>
+        <span>x {{usersLength}}</span>
       </div>
     </div>
     <div class="billTotat">
       <span>应付总额：</span>
-      <span>￥910</span>
+      <span>￥{{price}}</span>
     </div>
   </div>
 </template>
@@ -46,6 +46,14 @@ export default {
     data: {
       type: Object,
       default: {}
+    },
+    price: {
+      type: Number,
+      default: 0
+    },
+    usersLength: {
+      type: Number,
+      default:0
     }
   },
   computed: {

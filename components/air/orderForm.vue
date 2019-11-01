@@ -2,6 +2,8 @@
   <div>
     <!-- 1 乘机人 -->
     <div class="fly_people">
+      <!-- 这里要使用隐藏域调用计算属性，不然 vue 不会帮我们执行计算的代码 -->
+      <input type="hidden" :value="price">
       <div class="fly_people_title">乘机人</div>
       <div class="fly_people_content">
         <el-form label-position="top" label-width="80px">
@@ -44,7 +46,11 @@
       <div class="insurance_title">保险</div>
       <div class="insurance_content">
         <div class="insurance_row" v-for="(item, index) in airTicket.insurances" :key="index">
-          <el-checkbox label="备选项1" border >{{item.price}}/份×1最高赔付{{item.compensation}}</el-checkbox>
+          <el-checkbox
+            label="备选项1"
+            border
+            @change="handleInsurancesChange(item.id)"
+          >{{item.price}}/份×1最高赔付{{item.compensation}}</el-checkbox>
         </div>
       </div>
     </div>
@@ -60,7 +66,9 @@
 
           <el-form-item label="手机">
             <el-input v-model="contactPhone">
-              <template slot="append"><div @click="handleCaptchaChange">发送验证码</div></template>
+              <template slot="append">
+                <div @click="handleCaptchaChange">发送验证码</div>
+              </template>
             </el-input>
           </el-form-item>
 
@@ -97,7 +105,7 @@ export default {
       // 联系人电话
       contactPhone: '14715871345',
       // 验证码
-      captcha:"000000",
+      captcha: "000000",
       // 开发票
       invoice: false,
       // 座位
@@ -121,18 +129,52 @@ export default {
       let reg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
       if (reg.test(this.contactPhone)) {
         this.$axios
-          .post('/captchas', {tel: this.contactPhone})
+          .post('/captchas', { tel: this.contactPhone })
           .then(res => {
             // this.$message.warning('123')
-            this.$confirm('验证码是：'+res.data.code)
+            this.$confirm('验证码是：' + res.data.code)
           })
       } else {
         this.$message.warning('手机号不合法 ￣へ￣')
       }
+    },
+    // 获取当前选中的保险
+    handleInsurancesChange (id) {
+      const index = this.insurances.findIndex(v => v === id)
+      if (index === -1) {
+        // 如果 findIndex返回 -1， 表示没有添加  执行添加
+        this.insurances.push(id)
+      } else {
+        this.insurances.splice(index, 1)
+      }
     }
   },
-  mounted () {
-    // console.log(airTicket)
+  computed: {
+    // 使用计算属性计算订单总额
+    price () {
+      // 1 先声明
+      let price = 0;
+      // 机票费用
+      price += this.airTicket.base_price;
+      // 机建、燃油费
+      price += this.airTicket.airport_tax_audlet;
+      // 保险费  因为是复选框且是数组形式 So 要拿到 数组 id 去 ticket.insurances 找到 这个id 的价格
+      // !!!! 遍历的是data中的数字对象
+      this.insurances.forEach(v => {
+        // 遍历这个数组，再找到该索引对应的数据     vv =  {id: 1, type: "航空意外险", price: 30, compensation: "260万", created_at: 1555487082133,…}
+        const index = this.airTicket.insurances.findIndex(vv => vv.id === v);
+        const item = this.airTicket.insurances[index];
+
+        price += item.price;
+      })
+      price *= this.users.length;
+
+      // 给父组件传值
+      let usersLength = this.users.length
+      this.$emit('countPrice', price,usersLength)
+
+      return price
+    }
   }
 };
 </script>
