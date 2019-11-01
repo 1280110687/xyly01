@@ -55,17 +55,17 @@
       <div class="contact_content">
         <el-form label-width="80px">
           <el-form-item label="姓名">
-            <el-input></el-input>
+            <el-input v-model="contactName"></el-input>
           </el-form-item>
 
           <el-form-item label="手机">
-            <el-input>
-              <template slot="append">发送验证码</template>
+            <el-input v-model="contactPhone">
+              <template slot="append"><div @click="handleCaptchaChange">发送验证码</div></template>
             </el-input>
           </el-form-item>
 
           <el-form-item label="验证码">
-            <el-input></el-input>
+            <el-input v-model="captcha"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -88,15 +88,47 @@ export default {
   },
   data () {
     return {
-      users: [{ username: "", id: "" }]
+      // 乘机人
+      users: [{ username: "", id: "" }],
+      // 保险id
+      insurances: [],
+      // 联系人姓名
+      contactName: '',
+      // 联系人电话
+      contactPhone: '14715871345',
+      // 验证码
+      captcha:"000000",
+      // 开发票
+      invoice: false,
+      // 座位
+      seat_xid: this.$route.query.seat_xid,
+      // 航班
+      air: this.$route.query.id
     }
   },
   methods: {
+    // 添加乘机人    因为需要存储两个参数，所以以数组对象方式存储
     addUsers () {
       this.users.push({ username: "", id: "" })
     },
+    // 删除乘机人
     handleDecrement (index) {
       this.users.splice(index, 1)
+    },
+    // 发送验证码
+    handleCaptchaChange () {
+      // 获取手机号判断合法性
+      let reg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+      if (reg.test(this.contactPhone)) {
+        this.$axios
+          .post('/captchas', {tel: this.contactPhone})
+          .then(res => {
+            // this.$message.warning('123')
+            this.$confirm('验证码是：'+res.data.code)
+          })
+      } else {
+        this.$message.warning('手机号不合法 ￣へ￣')
+      }
     }
   },
   mounted () {

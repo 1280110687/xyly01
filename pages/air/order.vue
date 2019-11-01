@@ -3,14 +3,17 @@
     <div class="order_main">
       <orderForm :airTicket="airTicket" />
     </div>
-    <div class="order_aside">2</div>
+    <div class="order_aside">
+      <orderBill :data="airTicket" />
+    </div>
   </div>
 </template>
 <script>
 import orderForm from "@/components/air/orderForm"
+import orderBill from "@/components/air/orderBill"
 export default {
   components: {
-    orderForm
+    orderForm, orderBill
   },
   data () {
     return {
@@ -25,7 +28,7 @@ export default {
       params: { seat_xid: this.$route.query.seat_xid }
     })
       .then(res => {
-        console.log(res)
+        console.log(res) // 这里可以拿到需要的所有数据
         this.airTicket = res.data
       })
 
