@@ -3,7 +3,7 @@
     <!-- 1 乘机人 -->
     <div class="fly_people">
       <!-- 这里要使用隐藏域调用计算属性，不然 vue 不会帮我们执行计算的代码 -->
-      <input type="hidden" :value="price">
+      <input type="hidden" :value="price" />
       <div class="fly_people_title">乘机人</div>
       <div class="fly_people_content">
         <el-form label-position="top" label-width="80px">
@@ -16,7 +16,7 @@
                   </el-select>
                 </el-col>
                 <el-col :span="18">
-                  <el-input v-model="item.username"></el-input>
+                  <el-input v-model="item.username" placeholder="请输入乘机人姓名"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -29,7 +29,7 @@
                   </el-select>
                 </el-col>
                 <el-col :span="18">
-                  <el-input v-model="item.id"></el-input>
+                  <el-input v-model="item.id" placeholder="请输入乘机人证件号码"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -77,7 +77,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary">提交订单</el-button>
+            <el-button type="primary" @click="handleSubmit">提交订单</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -111,7 +111,7 @@ export default {
       // 座位
       seat_xid: this.$route.query.seat_xid,
       // 航班
-      air: this.$route.query.id
+      air: this.$route.query.id,
     }
   },
   methods: {
@@ -147,6 +147,60 @@ export default {
       } else {
         this.insurances.splice(index, 1)
       }
+    },
+    // 提交订单
+    handleSubmit () {
+      console.log('啊哈');
+
+      // 需要验证很多信息
+      let form = {
+        // users  和  insurances   都是一个数组、
+        // users: this.users,
+        // insurances: this.insurances,
+        contactName: this.contactName,
+        contactPhone: this.contactPhone,
+        invoice: false,
+        seat_xid: this.seat_xid,
+        air: this.air
+      }
+
+      // if (form.contactName === '') {
+      //   console.log('用户名不能为空')
+      //   return
+      // }
+
+      // 状态模式练习-初次使用
+      let contactName = function (val, msg) {
+        if (val === '') {
+          return msg
+        }
+      }
+      let contactPhone = function (val, msg) {
+        if (val === '') {
+          return msg
+        }
+      }
+
+      let validateFuncs = [function () {
+        return contactName(form.contactName, '联系人不能为空')
+      }, function () {
+        return contactPhone(form.contactPhone, '联系人手机不能为空')
+      }]
+
+      function validator () {
+        for (let i = 0; i < validateFuncs.length; i++) {
+          let res = validateFuncs[i]();
+          if (res) {
+            // debugger
+            return res
+          }
+        }
+      }
+      let errMsg = validator()
+      if (errMsg){
+        this.$message.warning(errMsg)
+        // console.log(errMsg)
+      }
     }
   },
   computed: {
@@ -171,12 +225,12 @@ export default {
 
       // 给父组件传值
       let usersLength = this.users.length
-      this.$emit('countPrice', price,usersLength)
+      this.$emit('countPrice', price, usersLength)
 
       return price
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
