@@ -164,42 +164,73 @@ export default {
         air: this.air
       }
 
-      // if (form.contactName === '') {
+
+
+      // if (form.contactName === '') {   这样写太繁琐
       //   console.log('用户名不能为空')
       //   return
       // }
 
-      // 状态模式练习-初次使用
-      let contactName = function (val, msg) {
-        if (val === '') {
-          return msg
+
+      // // 状态模式练习-初次使用
+      // let contactName = function (val, msg) {
+      //   if (val === '') {
+      //     return msg
+      //   }
+      // }
+      // let contactPhone = function (val, msg) {
+      //   if (val === '') {
+      //     return msg
+      //   }
+      // }
+
+      // let validateFuncs = [function () {
+      //   return contactName(form.contactName, '联系人不能为空')
+      // }, function () {
+      //   return contactPhone(form.contactPhone, '联系人手机不能为空')
+      // }]
+
+      // function validator () {
+      //   for (let i = 0; i < validateFuncs.length; i++) {
+      //     let res = validateFuncs[i]();
+      //     if (res) {
+      //       // debugger
+      //       return res
+      //     }
+      //   }
+      // }
+      // let errMsg = validator()
+      // if (errMsg) {
+      //   this.$message.warning(errMsg)
+      //   // console.log(errMsg)
+      // }
+
+      // 对乘机人做表单验证
+      let isUserOk = true
+      this.users.forEach(v => {
+        // v =  {username:"",id:""}
+        if (v.username === "" || v.id === "") {
+          // 这里不能用 break 
+          isUserOk = false
         }
-      }
-      let contactPhone = function (val, msg) {
-        if (val === '') {
-          return msg
-        }
+      })
+
+      if (!isUserOk) {
+        this.$message.warning('乘机人输入有误')
+        return
       }
 
-      let validateFuncs = [function () {
-        return contactName(form.contactName, '联系人不能为空')
-      }, function () {
-        return contactPhone(form.contactPhone, '联系人手机不能为空')
-      }]
-
-      function validator () {
-        for (let i = 0; i < validateFuncs.length; i++) {
-          let res = validateFuncs[i]();
-          if (res) {
-            // debugger
-            return res
-          }
+      // 对其余对象循环 检验
+      let isOk = true
+      for (const key in form) {
+        if (form[key] === '') {
+          this.$message.warning('输入有误')
+          isOk = false
+          break
         }
       }
-      let errMsg = validator()
-      if (errMsg){
-        this.$message.warning(errMsg)
-        // console.log(errMsg)
+      if (!isOk) {
+        return
       }
     }
   },
