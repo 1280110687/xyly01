@@ -159,6 +159,7 @@ export default {
         // insurances: this.insurances,
         contactName: this.contactName,
         contactPhone: this.contactPhone,
+        captcha: this.captcha,
         invoice: false,
         seat_xid: this.seat_xid,
         air: this.air
@@ -232,35 +233,50 @@ export default {
       if (!isOk) {
         return
       }
-    }
-  },
-  computed: {
-    // 使用计算属性计算订单总额
-    price () {
-      // 1 先声明
-      let price = 0;
-      // 机票费用
-      price += this.airTicket.base_price;
-      // 机建、燃油费
-      price += this.airTicket.airport_tax_audlet;
-      // 保险费  因为是复选框且是数组形式 So 要拿到 数组 id 去 ticket.insurances 找到 这个id 的价格
-      // !!!! 遍历的是data中的数字对象
-      this.insurances.forEach(v => {
-        // 遍历这个数组，再找到该索引对应的数据     vv =  {id: 1, type: "航空意外险", price: 30, compensation: "260万", created_at: 1555487082133,…}
-        const index = this.airTicket.insurances.findIndex(vv => vv.id === v);
-        const item = this.airTicket.insurances[index];
 
-        price += item.price;
-      })
-      price *= this.users.length;
-
-      // 给父组件传值
-      let usersLength = this.users.length
-      this.$emit('countPrice', price, usersLength)
-
-      return price
-    }
+      // 发起异步请求   记得加上两个数组的值后台需要
+      form.users = this.users
+      form.insurances = this.insurances
+      // 这里需要带上 token 值，证明登录过
+      // 从 vuex 中取之前存的 token 值
+      const token = this.$store.state.user.userinfo.token
+      this.$axios
+        .post('/airorders', form, {
+          headers: { Authorization: `Bearer ${token}`}
+        })
+        .then(res => {
+          console.log(res)
+          this.$message.success("订单提交成功")
+        })
   }
+},
+computed: {
+  // 使用计算属性计算订单总额
+  price() {
+    // 1 先声明
+    let price = 0;
+    // 机票费用
+    price += this.airTicket.base_price;
+    // 机建、燃油费
+    price += this.airTicket.airport_tax_audlet;
+    // 保险费  因为是复选框且是数组形式 So 要拿到 数组 id 去 ticket.insurances 找到 这个id 的价格
+    // !!!! 遍历的是data中的数字对象
+    this.insurances.forEach(v => {
+      // 遍历这个数组，再找到该索引对应的数据     vv =  {id: 1, type: "航空意外险", price: 30, compensation: "260万", created_at: 1555487082133,…}
+      const index = this.airTicket.insurances.findIndex(vv => vv.id === v);
+      const item = this.airTicket.insurances[index];
+
+      price += item.price;
+    })
+    price *= this.users.length;
+
+    // 给父组件传值
+    let usersLength = this.users.length
+    this.$emit('countPrice', price, usersLength)
+
+    return price
+  }
+}
 }
 </script>
 
