@@ -1,6 +1,6 @@
 <template>
   <div>
-    攻略
+    <h1>旅游攻略</h1>
   </div>
 </template>
 <script>
