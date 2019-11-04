@@ -2,38 +2,59 @@
   <div class="types_tab">
     <div class="types_tab_title">
       <div
-      @click="titleChange(index)"
-      class="title_item"
-      :class="index === currentIndex?'active':''"
-      v-for="(item, index) in titles"
-      :key="index"
+        @click="titleChange(index)"
+        class="title_item"
+        :class="index === currentIndex?'active':''"
+        v-for="(item, index) in titles"
+        :key="index"
       >{{item.text}}</div>
     </div>
     <div class="types_tab_content">
-      <input type="text" :placeholder="titles[currentIndex].ph">
-      <i class="el-icon-search"></i>
+      <input type="text" :placeholder="titles[currentIndex].ph" />
+      <div @click="hotelSearch">
+        <i class="el-icon-search"></i>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       titles: [
-        {text: "攻略", ph: "请输入想去的城市"},
-        {text: "酒店", ph: "请输入酒店名称"},
-        {text: "机票", ph: "请输入地址"}
+        { text: '攻略', ph: '请输入想去的城市' },
+        { text: '酒店', ph: '请输入酒店名称' },
+        { text: '机票', ph: '请输入地址' }
       ],
-      currentIndex: 0
+      currentIndex: 0,
+      hotelList: {},
+      jiudian:{}
     }
   },
   methods: {
-    titleChange (index) {
+    titleChange(index) {
       this.currentIndex = index
       if (index === 2) {
         this.$router.push('/air')
       }
+    },
+    //酒店搜索
+    hotelSearch() {
+      let input = document.querySelector('input')
+      let value = input.value
+      // if(value === this.hotelList.)
     }
+  },
+  mounted() {
+    //获取城市id
+    this.$axios.get('/hotels').then(res => {
+      this.hotelList = res.data
+      console.log(this.hotelList)
+    })
+    this.$axios.get('/hotels/options').then(res => {
+      this.jiudian = res.data
+      console.log(this.jiudian)
+    })
   }
 }
 </script>
@@ -48,7 +69,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       color: #fff;
       cursor: pointer;
     }
