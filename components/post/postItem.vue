@@ -2,7 +2,7 @@
   <!-- 根据图片数组长度判断使用哪个结构  > 2 显示三图结构 否则都是一图结构 -->
   <div class="postItem">
     <!-- 第一种情况 -- 显示三图 -->
-    <router-link to="/post/1" v-if="postList.images.length > 2">
+    <router-link :to='"/post/"+ postList.id' v-if="postList.images.length > 2">
       <div class="artical">
         <div class="artical_title">
           <h2>{{postList.title}}</h2>
@@ -36,12 +36,9 @@
       </div>
     </router-link>
     <!-- 第二种情况   左边一张图，右边文字 -->
-    <div class="artical2" @click="$router.push('/post/2')" v-if="postList.images.length <= 2">
+    <div class="artical2" @click="$router.push('/post/'+postList.id)" v-if="postList.images.length <= 2">
       <div class="artical2_img">
-        <img
-          src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-          alt
-        />
+        <img :src="postList.images[0]" alt />
       </div>
       <div class="artical2_content">
         <div class="artical_title">
@@ -66,32 +63,19 @@
         </div>
       </div>
     </div>
-    <!-- 分页 -->
-    <div class="block" v-if="false">
-      <el-pagination
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-      ></el-pagination>
-    </div>
   </div>
 </template>
 <script>
 export default {
   props: ['postList'],
-  mounted () {
-    console.log(this.postList)
-    console.log(this.postList.images.length)
-    console.log(this.postList.images[1])
-  }
+  // mounted () {
+  //   console.log(this.postList)
+  //   console.log(this.postList.images.length)
+  //   console.log(this.postList.images[1])
+  // }
 }
 </script>
 <style lang="less" scoped>
-.block {
-  padding: 14px 0 24px 12px;
-}
 .artical {
   border-bottom: 1px solid #eee;
   // margin-bottom: 30px;
@@ -236,6 +220,3 @@ export default {
   }
 }
 </style>
-
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"

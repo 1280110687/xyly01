@@ -32,7 +32,7 @@ export default {
   // },
   mounted () {
     this.$axios.get('/posts/cities').then(res => {
-      console.log(res)
+      // console.log(res)
       this.cityList = res.data.data
     })
   }

@@ -24,7 +24,26 @@
       <!-- 攻略头部  结束 -->
       <!-- 攻略文本  开始 -->
       <div class="content_post">
-        <postItem :postList='item' v-for="(item, index) in postList" :key="index"/>
+        <postItem :postList="item" v-for="item in currentFlights" :key="item.id" />
+        <!-- 分页 -->
+        <div class="block">
+          <!-- 
+          :current-page  当前的页码 
+          :page-sizes= 页容量 数组 
+          :page-size  当前 页容量 
+          @size-change 页容量改变事件 
+          @current-change 页码改变事件 
+          -->
+          <el-pagination
+            :current-page="page.currentPage"
+            :page-sizes="page.pageSizes"
+            :page-size="page.pageSize"
+            :total="page.total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="total, sizes, prev, pager, next, jumper"
+          ></el-pagination>
+        </div>
       </div>
       <!-- 攻略文本  结束 -->
     </div>
@@ -38,15 +57,56 @@ export default {
   },
   data () {
     return {
-      postList: []
+      postList: [],
+      // 分页对象
+      page: {
+        // 当前页码
+        currentPage: 1,
+        // 页容量数组
+        pageSizes: [2, 5, 10, 50, 100],
+        // 页容量
+        pageSize: 2,
+        // 总条数
+        total: 1
+      },
+      // 被分页后的文章列表 
+      currentFlights: []
     }
   },
   mounted () {
-    this.$axios.get('/posts').then(res => {
-      console.log(res)
-      this.postList = res.data.data
-      console.log(this.postList)
-    })
+    this.getList()
+  },
+  methods: {
+    // 获取文章列表数据 
+    getList () {
+      this.$axios.get('/posts').then(res => {
+        this.postList = res.data.data
+        // console.log(res)
+        console.log(this.postList)
+        // 定义 总条数
+        this.page.total = this.postList.length
+        this.currentFlights = this.postList.slice(
+          (this.page.currentPage - 1) * this.page.pageSize, this.page.currentPage * this.page.pageSize
+        )
+      })
+      // getList()
+    },
+
+    // 页容量改变事件 
+    handleSizeChange (value) {
+      this.page.pageSize = value
+      this.currentFlights = this.postList.slice(
+        (this.page.currentPage - 1) * this.page.pageSize, this.page.currentPage * this.page.pageSize
+      )
+    },
+    // 页码改变事件 
+    handleCurrentChange (value) {
+      // 选择后的页码数
+      this.page.currentPage = value
+      this.currentFlights = this.postList.slice(
+        (this.page.currentPage - 1) * this.page.pageSize, this.page.currentPage * this.page.pageSize
+      )
+    }
   }
 }
 </script>
@@ -122,6 +182,9 @@ export default {
 
     .content_post {
       width: 700px;
+      .block {
+        padding: 14px 0 24px 12px;
+      }
     }
   }
 }

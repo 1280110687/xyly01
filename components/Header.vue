@@ -79,6 +79,7 @@ export default {
 <style lang="less"  scoped>
 .header {
   border-bottom: 1px solid #ccc;
+  box-shadow: 0px 1px 4px 1px #ccc;
   a {
     text-decoration: none;
     // 继承父元素的字体颜色   div标签的 字体 就是这个值
