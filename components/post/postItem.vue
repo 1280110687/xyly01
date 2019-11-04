@@ -2,51 +2,41 @@
   <!-- 根据图片数组长度判断使用哪个结构  > 2 显示三图结构 否则都是一图结构 -->
   <div class="postItem">
     <!-- 第一种情况 -- 显示三图 -->
-    <router-link to="/post/1">
+    <router-link to="/post/1" v-if="postList.images.length > 2">
       <div class="artical">
         <div class="artical_title">
-          <h2>塞班贵？一定是你的打开方式不对！6000块玩转塞班定是你的打开方式不对！6000块玩转塞班</h2>
+          <h2>{{postList.title}}</h2>
         </div>
         <div class="artical_text">
-          <p>大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略</p>
+          <p>{{postList.summary}}</p>
         </div>
         <!-- 图片用 v-for 来显示 -->
         <div class="artical_img">
           <img
-            src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-            alt
-          />
-          <img
-            src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-            alt
-          />
-          <img
-            src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-            alt
-          />
-          <img
-            src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
+            v-for="(item, index) in postList.images"
+            :key="index"
+            :src="postList.images[index]"
             alt
           />
         </div>
         <div class="artical_fool">
           <div class="fool_left">
             <i class="el-icon-location-outline"></i>
-            <span>北京市</span>
+            <span>{{postList.cityName}}</span>
             <div class="fool_author">
               <s>by</s>
               <img src="http://157.122.54.189:9095/assets/images/avatar.jpg" alt />
-              <span>地球发动机</span>
+              <span>{{postList.account.nickname}}</span>
             </div>
             <i class="el-icon-view"></i>
-            <span>9430</span>
+            <span>{{postList.watch}}</span>
           </div>
           <div class="fool_right">57赞</div>
         </div>
       </div>
     </router-link>
     <!-- 第二种情况   左边一张图，右边文字 -->
-    <div class="artical2" @click="$router.push('/post/2')">
+    <div class="artical2" @click="$router.push('/post/2')" v-if="postList.images.length <= 2">
       <div class="artical2_img">
         <img
           src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
@@ -55,44 +45,53 @@
       </div>
       <div class="artical2_content">
         <div class="artical_title">
-          <h2>塞班贵？一定是你的打开方式不对！6000块玩转塞班</h2>
+          <h2>{{postList.title}}</h2>
         </div>
         <div class="artical_text">
-          <p>大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略</p>
+          <p>{{postList.summary}}</p>
         </div>
         <div class="artical_fool">
           <div class="fool_left">
             <i class="el-icon-location-outline"></i>
-            <span>北京市</span>
+            <span>{{postList.cityName}}</span>
             <div class="fool_author">
               <s>by</s>
               <img src="http://157.122.54.189:9095/assets/images/avatar.jpg" alt />
-              <span>地球发动机</span>
+              <span>{{postList.account.nickname}}</span>
             </div>
             <i class="el-icon-view"></i>
-            <span>9430</span>
+            <span>{{postList.watch}}</span>
           </div>
           <div class="fool_right">57赞</div>
         </div>
       </div>
     </div>
+    <!-- 分页 -->
+    <div class="block" v-if="false">
+      <el-pagination
+        :current-page="currentPage4"
+        :page-sizes="[100, 200, 300, 400]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="400"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  data () {
-    return {
-      postList: []
-    }
-  },
+  props: ['postList'],
   mounted () {
-    this.$axios.get('/posts').then(res => {
-      console.log(res)
-    })
+    console.log(this.postList)
+    console.log(this.postList.images.length)
+    console.log(this.postList.images[1])
   }
 }
 </script>
 <style lang="less" scoped>
+.block {
+  padding: 14px 0 24px 12px;
+}
 .artical {
   border-bottom: 1px solid #eee;
   // margin-bottom: 30px;
@@ -112,8 +111,6 @@ export default {
     margin-bottom: 16px;
     overflow: hidden;
     color: #666;
-    p {
-    }
   }
 
   .artical_img {
@@ -239,3 +236,6 @@ export default {
   }
 }
 </style>
+
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"

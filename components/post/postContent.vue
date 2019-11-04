@@ -24,7 +24,7 @@
       <!-- 攻略头部  结束 -->
       <!-- 攻略文本  开始 -->
       <div class="content_post">
-        <postItem />
+        <postItem :postList='item' v-for="(item, index) in postList" :key="index"/>
       </div>
       <!-- 攻略文本  结束 -->
     </div>
@@ -35,6 +35,18 @@ import postItem from "@/components/post/postItem"
 export default {
   components: {
     postItem
+  },
+  data () {
+    return {
+      postList: []
+    }
+  },
+  mounted () {
+    this.$axios.get('/posts').then(res => {
+      console.log(res)
+      this.postList = res.data.data
+      console.log(this.postList)
+    })
   }
 }
 </script>
