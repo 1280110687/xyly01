@@ -22,44 +22,45 @@
           <s>阅读：</s>
           <span>{{postDetails.watch}}</span>
         </div>
-        <div class="text" v-html="postDetails.content"></div>
+        <div class="text" v-html="postDetails.content">
+          
+        </div>
         <div class="text_fooler">
-          <div class="ico_text">
-            <i class="iconfont iconpinglun"></i>
-            <span>评论(103)</span>
-          </div>
-          <div class="ico_text">
-            <i class="iconfont iconstar1"></i>
-            <span>收藏</span>
-          </div>
-          <div class="ico_text">
-            <i class="iconfont iconfenxiang"></i>
-            <span>分享</span>
-          </div>
-          <div class="ico_text">
-            <i class="iconfont iconding"></i>
-            <span>点赞(55)</span>
-          </div>
+         <div class="ico_text">
+           <i class="iconfont iconpinglun"></i>
+           <span>评论(103)</span>
+         </div>
+         <div class="ico_text">
+           <i class="iconfont iconstar1"></i>
+           <span>收藏</span>
+         </div>
+         <div class="ico_text">
+           <i class="iconfont iconfenxiang"></i>
+           <span>分享</span>
+         </div>
+         <div class="ico_text">
+           <i class="iconfont iconding"></i>
+           <span>点赞(55)</span>
+         </div>
         </div>
       </div>
       <!-- 文章详情-文本内容  结束 -->
       <!-- 评论使用组件套组件 -->
       <div class="post_comments">
-        <postComments />
+        <h3>评论组件的坑</h3>
       </div>
     </div>
     <!-- 侧边栏 -->
     <div class="details_right">
-      <detailsRight />
+      <detailsRight/>
     </div>
   </div>
 </template>
 <script>
 import detailsRight from "@/components/post/detailsRight"
-import postComments from "@/components/post/postComments"
 export default {
   components: {
-    detailsRight, postComments
+    detailsRight
   },
   data () {
     return {
@@ -70,15 +71,11 @@ export default {
   mounted () {
     // 拿文章id  is Ok
     // console.log(this.$route.params.id)
-    this.$axios.get('/posts/' + this.$route.params.id).then(res => {
+    this.$axios.get('/posts/'+this.$route.params.id).then(res => {
       console.log(res)
       this.postDetails = res.data
       this.citys = res.data.city
     })
-
-  },
-  methods: {
-    
   }
 }
 </script>
@@ -113,6 +110,7 @@ export default {
         color: #999;
         padding: 20px 20px 20px 0px;
         span {
+
         }
         s {
           margin-left: 24px;

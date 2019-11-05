@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="hotel">
     <!-- 酒店预订开始 -->
     <div class="bourn">
@@ -38,17 +39,19 @@ export default {
       <!-- 头部 -- 面包屑和筛选 -->
       <hotelHeader />
     </div>
+=======
+  <div>
+    酒店
+>>>>>>> parent of d9e9eb9... 评论的动态渲染完成
   </div>
 </template>
 <script>
-import hotelHeader from "@/components/hotel/hotelHeader"
 export default {
-  components: {
-    hotelHeader
-  }
+
 }
 </script>
 <style lang="less" scoped>
+<<<<<<< HEAD
 .hotel {
   margin: 0 auto;
   width: 1000px;
@@ -57,4 +60,7 @@ export default {
     margin: 0 auto;
   }
 }
+=======
+
+>>>>>>> parent of d9e9eb9... 评论的动态渲染完成
 </style>
