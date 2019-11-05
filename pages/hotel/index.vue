@@ -1,60 +1,56 @@
 <template>
   <div class="hotel">
-    <!-- 酒店预订开始 -->
-    <div class="bourn">
-      <!-- 酒店搜索 -->
-      <SearchForm :hotelList='hotelList'/>
-      <!-- 酒店类型筛选 -->
-      <HotelType :hotelList="hotelList" />
-    </div>
-    <!-- 酒店预订结束 -->
-  </div>
-</template>
-<script>
-import SearchForm from '@/components/hotel/SearchForm'
-import HotelType from '@/components/hotel/HotelType'
-export default {
-  data() {
-    return {
-      hotelList: {}
-    }
-  },
-  components: {
-    SearchForm,
-    HotelType
-  },
-  methods: {
-    //获取酒店数据
-    getList() {
-      this.$axios.get('/hotels').then(res => {
-        this.hotelList = res.data
-        console.log(this.hotelList)
-      })
-    }
-  },
-  mounted() {
-    this.getList()
     <div class="hotel_main">
       <!-- 头部 -- 面包屑和筛选 -->
-      <hotelHeader />
+      <div class="header_main">
+        <!-- 面包屑 -->
+        <div class="header_bum">
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/hotel' }">酒店</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="name">{{name}}市酒店预订</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+      </div>
+      <!-- 介绍 -->
+      <div>
+        <hotelHeader @cityName="cityName" />
+      </div>
+      <!-- 酒店中间筛选 -->
+      <div class="hotel_fights">
+        <hotelFilter :cityName="cityName"/>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import hotelHeader from "@/components/hotel/hotelHeader"
+import hotelFilter from "@/components/hotel/hotelFilter"
 export default {
+  data () {
+    return {
+      name: ''
+    }
+  },
   components: {
-    hotelHeader
+    hotelHeader, hotelFilter
+  },
+  methods: {
+    cityName (cityName) {
+      this.name = cityName
+    }
   }
 }
 </script>
 <style lang="less" scoped>
 .hotel {
-  margin: 0 auto;
-  width: 1000px;
   .hotel_main {
     max-width: 1000px;
     margin: 0 auto;
+    .header_main {
+      .header_bum {
+        padding-top: 14px;
+      }
+    }
   }
 }
 </style>
